@@ -17,11 +17,30 @@ const normalizeSubtitleText = (subtitleText) => {
   return [];
 };
 
+const removeCursorSiblings = (element) => {
+  if (!element?.parentNode) {
+    return;
+  }
+
+  let sibling = element.nextSibling;
+  while (sibling?.classList?.contains("typed-cursor")) {
+    const next = sibling.nextSibling;
+    sibling.remove();
+    sibling = next;
+  }
+};
+
 const destroyInstance = (id) => {
   const instance = instances.get(id);
   if (instance && typeof instance.destroy === "function") {
     try {
+      if (instance.timeout) {
+        clearTimeout(instance.timeout);
+      }
       instance.destroy();
+      if (instance.timeout) {
+        clearTimeout(instance.timeout);
+      }
     } catch (error) {
       console.error("Failed to destroy Typed instance:", error);
     }
@@ -32,19 +51,27 @@ const destroyInstance = (id) => {
   const element = document.getElementById(id);
   if (element) {
     element.innerHTML = "";
+    removeCursorSiblings(element);
   }
 };
+
+// Bump the token first so a hitokoto response still in flight cannot
+// start another Typed after the page has gone away.
+export function destroyTyped(id) {
+  initTokens.set(id, (initTokens.get(id) || 0) + 1);
+  destroyInstance(id);
+}
 
 const createTyped = (id, strings, options, callbacks = {}) => {
   if (typeof window.Typed === "undefined") {
     return;
   }
 
+  destroyInstance(id);
+
   if (!document.getElementById(id)) {
     return;
   }
-
-  destroyInstance(id);
 
   const instance = new window.Typed(`#${id}`, {
     strings,
@@ -109,6 +136,7 @@ export const config = {
 export default function initTyped(id) {
   const currentToken = (initTokens.get(id) || 0) + 1;
   initTokens.set(id, currentToken);
+  destroyInstance(id);
 
   const {
     usrTypeSpeed,

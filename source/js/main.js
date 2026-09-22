@@ -54,6 +54,17 @@ let globalsInitialized = false;
 let didInitRefreshEvent = false;
 let appController = null;
 let pageController = null;
+let typedModule = null;
+
+const loadTypedModule = () => {
+  const pending = import("./plugins/typed.js");
+  pending
+    .then((module) => {
+      typedModule = module;
+    })
+    .catch(() => {});
+  return pending;
+};
 
 const getAppSignal = () => {
   if (!appController) {
@@ -253,7 +264,7 @@ const initPage = () => {
     lazyRun(
       "typed",
       pageSignal,
-      () => import("./plugins/typed.js"),
+      loadTypedModule,
       ({ default: initTyped }) => {
         initTyped("subtitle");
       },
@@ -343,7 +354,10 @@ const swup = window.swup;
 
 if (swup?.hooks) {
   swup.hooks.on("page:view", initPage);
-  swup.hooks.before("content:replace", abortPageScope);
+  swup.hooks.before("content:replace", () => {
+    typedModule?.destroyTyped("subtitle");
+    abortPageScope();
+  });
   swup.hooks.on("visit:start", () => {
     navbarShrink.setNavigating(true);
   });
