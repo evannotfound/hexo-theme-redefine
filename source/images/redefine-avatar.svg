@@ -1,1 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?><svg width="520px" height="520px" viewBox="0 0 520 520" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #333D47;"><title>redefine-logo-opposite</title><defs><path d="M168.410557,0 C237.219406,0 293,56.1882639 293,125.5 C293,194.811736 237.219406,251 168.410557,251 L168.41,171.369 L168.741123,171.36621 C193.778595,170.957299 213.950147,150.385146 213.950147,125.067241 C213.950147,99.6381036 193.60096,78.9965089 168.410838,78.7640518 L0,78.762069 L0,0 Z" id="path-1"></path></defs><g id="logo-MIT" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="Logo" transform="translate(123.000000, 113.000000)"><polygon id="左下角" fill="#A31F34" points="-1.46896384e-14 182 116 295 0 295"></polygon><polygon id="梯形" fill="#C9C8C7" points="-1.35612008e-14 3.96601155e-15 295 295 188.782799 295 -1.35612008e-14 107.068255"></polygon><mask id="mask-2" fill="white"><use xlink:href="#path-1"></use></mask><use id="Combined-Shape" fill="#C9C8C7" xlink:href="#path-1"></use><polygon id="阴影" fill="#8A8B8C" mask="url(#mask-2)" points="0 0 107.937318 3.96601155e-15 295 183.424839 295 295"></polygon></g></g></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="520px" height="520px" viewBox="0 0 520 520" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>logo-opposite</title>
+    <defs>
+        <radialGradient cx="12.7988691%" cy="8.0652841%" fx="12.7988691%" fy="8.0652841%" r="111.614049%" id="radialGradient-1">
+            <stop stop-color="#4E4E4E" offset="0%"></stop>
+            <stop stop-color="#0E0E0E" offset="100%"></stop>
+        </radialGradient>
+        <path d="M0,0 L520,0 L520,520 L0,520 Z" id="path-2"></path>
+        <filter x="-39.7%" y="-39.7%" width="179.3%" height="179.3%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="39" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.351272171   0 0 0 0 0.351272171   0 0 0 0 0.351272171  0 0 0 0.146350337 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <path d="M0,0 L168.410557,0 C237.219406,0 293,56.1882639 293,125.5 C293,194.811736 237.219406,251 168.410557,251 L168.41,171.368 L168.741123,171.36621 C193.778595,170.957299 213.950147,150.385146 213.950147,125.067241 C213.950147,99.6381036 193.60096,78.9965089 168.410838,78.7640518 L78.7680817,78.762069 L0,78.762069 L0,0 Z" id="path-4"></path>
+    </defs>
+    <g id="logo-opposite" stroke="none" fill="none" xlink:href="#path-2" fill-rule="evenodd">
+        <use fill="url(#radialGradient-1)" xlink:href="#path-2"></use>
+        <g id="Logo" filter="url(#filter-3)" stroke-width="1" transform="translate(118, 113)">
+            <polygon id="左下角" fill="#A31F34" points="-1.46896384e-14 182 116 295 0 295"></polygon>
+            <polygon id="梯形" fill="#C9C8C7" points="-1.35612008e-14 3.96601155e-15 295 295 188.782799 295 -1.35612008e-14 107.068255"></polygon>
+            <mask id="mask-5" fill="white">
+                <use xlink:href="#path-4"></use>
+            </mask>
+            <use id="Combined-Shape" fill="#C9C8C7" xlink:href="#path-4"></use>
+            <polygon id="阴影" fill="#8A8B8C" mask="url(#mask-5)" points="0 0 107.937318 3.96601155e-15 295 183.424839 295 295"></polygon>
+        </g>
+    </g>
+</svg>

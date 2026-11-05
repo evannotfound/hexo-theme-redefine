@@ -108,7 +108,7 @@ jobs:
           RELEASE_LLM_KEY: ${{ secrets.RELEASE_LLM_KEY }}
           GH_TOKEN: ${{ github.token }}
           OPENCODE_CONFIG_CONTENT: >-
-            {"provider":{"openai":{"options":{"baseURL":"{env:RELEASE_LLM_URL}","apiKey":"{env:RELEASE_LLM_KEY}"},"models":{"gpt-5.6-sol":{"name":"gpt-5.6-sol","limit":{"context":353000,"output":128000},"variants":{"high":{"reasoningEffort":"high"}}}}}}}
+            {"provider":{"openai":{"options":{"baseURL":"{env:RELEASE_LLM_URL}","apiKey":"{env:RELEASE_LLM_KEY}"}}}}
         run: |
           test -n "${RELEASE_LLM_URL}"
           test -n "${RELEASE_LLM_KEY}"
