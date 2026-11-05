@@ -1,6 +1,6 @@
 ---
 description: Generate repository-grounded bilingual notes for a Redefine release
-model: openai/gpt-5.4
+model: openai/gpt-6.1-sol
 variant: high
 ---
 
