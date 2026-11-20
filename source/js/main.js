@@ -255,7 +255,7 @@ const initPage = () => {
       pageSignal,
       () => import("./plugins/typed.js"),
       ({ default: initTyped }) => {
-        initTyped("subtitle");
+        initTyped("subtitle", { signal: pageSignal });
       },
     );
   }
