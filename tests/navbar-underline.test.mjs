@@ -3,14 +3,14 @@ import fs from "node:fs";
 import test from "node:test";
 
 const source = fs.readFileSync(
-  new URL("../source/js/layouts/navbarIndicator.js", import.meta.url),
+  new URL("../source/js/layouts/navbarUnderline.js", import.meta.url),
   "utf8",
 );
-const { default: initNavbarIndicator } = await import(
+const { default: initNavbarUnderline } = await import(
   `data:text/javascript;base64,${Buffer.from(source).toString("base64")}`
 );
 
-test("navbar indicator follows items and returns home without reacting to gaps", (t) => {
+test("navbar underline follows items and returns home without reacting to gaps", (t) => {
   const nav = new EventTarget();
   const attributes = new Map();
   nav.setAttribute = (name, value) => attributes.set(name, value);
@@ -51,7 +51,7 @@ test("navbar indicator follows items and returns home without reacting to gaps",
   globalThis.getComputedStyle = (element, pseudo) => {
     assert.equal(element, nav);
     assert.equal(pseudo, "::after");
-    assert.equal(attributes.has("data-indicator-ready"), false);
+    assert.equal(attributes.has("data-underline-ready"), false);
     initialStates.push(position());
     return { transform: "none" };
   };
@@ -79,15 +79,15 @@ test("navbar indicator follows items and returns home without reacting to gaps",
     nav.dispatchEvent(event);
   };
   const position = () => [
-    values.get("--navbar-indicator-x"),
-    values.get("--navbar-indicator-width"),
-    values.get("--navbar-indicator-opacity"),
+    values.get("--navbar-underline-x"),
+    values.get("--navbar-underline-width"),
+    values.get("--navbar-underline-opacity"),
   ];
 
   const controller = new AbortController();
-  initNavbarIndicator({ signal: controller.signal });
+  initNavbarUnderline({ signal: controller.signal });
   assert.deepEqual(initialStates, [["0px", "60px", "1"]]);
-  assert.equal(attributes.has("data-indicator-ready"), true);
+  assert.equal(attributes.has("data-underline-ready"), true);
   assert.deepEqual(position(), ["0px", "60px", "1"]);
   send("pointerover", about);
   assert.deepEqual(position(), ["100px", "90px", "1"]);
@@ -121,13 +121,13 @@ test("navbar indicator follows items and returns home without reacting to gaps",
   // A new page without a matching link shows the bar only during interaction.
   current = null;
   const nextController = new AbortController();
-  initNavbarIndicator({ signal: nextController.signal });
+  initNavbarUnderline({ signal: nextController.signal });
   assert.deepEqual(initialStates[1], ["10px", "70px", "0"]);
-  assert.equal(attributes.has("data-indicator-ready"), true);
-  assert.equal(values.get("--navbar-indicator-opacity"), "0");
+  assert.equal(attributes.has("data-underline-ready"), true);
+  assert.equal(values.get("--navbar-underline-opacity"), "0");
   send("pointerover", about);
   assert.deepEqual(position(), ["100px", "90px", "1"]);
   send("pointerleave", nav);
-  assert.equal(values.get("--navbar-indicator-opacity"), "0");
+  assert.equal(values.get("--navbar-underline-opacity"), "0");
   nextController.abort();
 });

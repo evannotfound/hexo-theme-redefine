@@ -4,7 +4,7 @@ import initHomeBanner from "./layouts/homeBanner.js";
 import initLazyLoad from "./layouts/lazyload.js";
 import { initTOC } from "./layouts/toc.js";
 import { navbarShrink } from "./layouts/navbarShrink.js";
-import initNavbarIndicator from "./layouts/navbarIndicator.js";
+import initNavbarUnderline from "./layouts/navbarUnderline.js";
 import initTabs from "./plugins/tabs.js";
 import initCopyCode from "./tools/codeBlock.js";
 import initExpirationDate from "./tools/expirationDate.js";
@@ -159,7 +159,7 @@ const initPage = () => {
 
   navbarShrink.setNavigating(false);
   navbarShrink.refresh();
-  initNavbarIndicator({ signal: pageSignal });
+  initNavbarUnderline({ signal: pageSignal });
 
   safeRun("footerRuntime", () => {
     if (theme.footer?.runtime) {

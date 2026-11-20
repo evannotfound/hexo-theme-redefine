@@ -1,7 +1,7 @@
-export default function initNavbarIndicator({ signal } = {}) {
+export default function initNavbarUnderline({ signal } = {}) {
   const nav = document.querySelector("[data-navbar-links]");
   if (!nav) return;
-  nav.removeAttribute("data-indicator-ready");
+  nav.removeAttribute("data-underline-ready");
 
   const links = Array.from(nav.querySelectorAll(".navbar-link"));
   const current = nav.querySelector('[aria-current="page"]');
@@ -15,16 +15,16 @@ export default function initNavbarIndicator({ signal } = {}) {
     const target = hovered || focused || current;
     const visible =
       target && !target.parentElement.classList.contains("navbar-dropdown");
-    nav.style.setProperty("--navbar-indicator-opacity", visible ? "1" : "0");
+    nav.style.setProperty("--navbar-underline-opacity", visible ? "1" : "0");
     if (!visible) return;
 
     const bounds = target.getBoundingClientRect();
     const parent = nav.getBoundingClientRect();
     nav.style.setProperty(
-      "--navbar-indicator-x",
+      "--navbar-underline-x",
       `${bounds.left - parent.left}px`,
     );
-    nav.style.setProperty("--navbar-indicator-width", `${bounds.width}px`);
+    nav.style.setProperty("--navbar-underline-width", `${bounds.width}px`);
   };
 
   nav.addEventListener(
@@ -71,5 +71,5 @@ export default function initNavbarIndicator({ signal } = {}) {
   update();
   // Resolve the starting position before enabling interaction transitions.
   getComputedStyle(nav, "::after").transform;
-  nav.setAttribute("data-indicator-ready", "");
+  nav.setAttribute("data-underline-ready", "");
 }
