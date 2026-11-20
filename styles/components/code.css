@@ -233,14 +233,14 @@
 
   .code-container figcaption {
     position: absolute;
+    top: 20px;
     left: 50%;
+    margin: 0;
     font-size: 16px;
     font-weight: bold;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
   }
 
-  [data-code-style='mac'] .code-container figcaption { top: 12px; }
-  [data-code-style='default'] .code-container figcaption { top: 16px; }
   .code-container figcaption a { margin-left: 10px; }
 
   .code-container .folded {

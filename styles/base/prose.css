@@ -315,7 +315,7 @@
     margin-bottom: 0;
   }
 
-  .markdown-body figure:not(.not-markdown) figcaption {
+  .markdown-body figure:not(.not-markdown):not(.highlight) figcaption {
     margin-top: 0.35rem;
     color: var(--rd-gray-900);
     font-size: 0.9rem;
