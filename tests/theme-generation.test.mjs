@@ -108,6 +108,11 @@ test("theme build and generation configurations", async (t) => {
     assert.ok(!home.includes('data-side-tool class="hidden size-10'));
     assert.equal(home.split('href="/essays"').length, 3);
     includes(post, ['id="article-layout"', 'id="toc-toggle"']);
+    includes(post, [
+      '<meta name="twitter:card" content="summary_large_image">',
+      '<meta property="og:image" content="https://redefine.ohevan.com/images/redefine-og.webp">',
+      '<meta name="twitter:image" content="https://redefine.ohevan.com/images/redefine-og.webp">',
+    ]);
     [home, post].forEach((output) => {
       assert.equal(output.split('id="swup"').length, 2);
       assert.equal(output.split('id="page-content"').length, 2);
