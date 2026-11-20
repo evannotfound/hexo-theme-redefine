@@ -13,19 +13,17 @@ body:
     id: pre-check
     attributes:
       label: 提交前检查
+      description: 如适用，请在提交前尝试以下操作：
       options:
         - label: 我已执行 `hexo clean` 并重新生成，问题仍然存在
-          required: true
         - label: 我已更新到[最新版本](https://redefine-docs.ohevan.com/getting-started#%E6%9B%B4%E6%96%B0)
-          required: true
         - label: 我已确认[同步了主题最新配置文件](https://redefine-docs.ohevan.com/getting-started#%E8%BF%81%E7%A7%BB%E9%85%8D%E7%BD%AE)
-          required: true
 
   - type: textarea
     id: bug-description
     attributes:
       label: Bug 描述
-      description: 请详细描述您遇到的问题，并提供相关配置文件内容（敏感信息请用 *** 替换）
+      description: 请描述您遇到的问题，并在适用时提供相关配置文件内容（敏感信息请用 *** 替换）
       placeholder: |
         问题描述：
         
@@ -39,19 +37,18 @@ body:
   - type: textarea
     id: reproduce
     attributes:
-      label: 复现步骤
+      label: 复现步骤（如可以）
+      description: 如果问题无法稳定复现，请描述问题出现的时间、位置或条件。
       value: |
         1. 
         2. 
         3. 
-    validations:
-      required: true
 
   - type: textarea
     id: expected
     attributes:
       label: 预期行为
-      description: 请描述正常情况下应该是什么样的
+      description: 如适用，请描述正常情况下应该是什么样的
 
   - type: textarea
     id: screenshots
@@ -98,11 +95,9 @@ body:
 
   - type: dropdown
     id: priority
-    validations:
-      required: true
     attributes:
       label: 优先级
-      description: 请根据问题的严重程度选择优先级
+      description: 可选：请选择您认为合适的优先级
       options:
         - 低（慢慢来）
         - 中（尽快解决）

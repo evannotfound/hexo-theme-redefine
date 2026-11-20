@@ -39,13 +39,11 @@ body:
     id: priority
     attributes:
       label: "优先级"
-      description: "您认为此功能的重要程度如何？"
+      description: "可选：您认为此功能的重要程度如何？"
       options:
         - 低（锦上添花）
         - 中（较为重要）
         - 高（急需解决）
-    validations:
-      required: true
 
   - type: textarea
     id: additional-info

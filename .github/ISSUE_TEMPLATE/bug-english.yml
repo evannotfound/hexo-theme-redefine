@@ -13,36 +13,31 @@ body:
     id: pre-check
     attributes:
       label: Quick Checklist
-      description: "Before submitting, please make sure you've done the following:"
+      description: "If applicable, please try the following before submitting:"
       options:
         - label: "I've tried running `hexo clean` but the issue is still there"
-          required: true
         - label: "[I'm using the latest version of the theme](https://redefine-docs.ohevan.com/getting-started#update)"
-          required: true
         - label: "[I've updated my theme configuration after updating](https://redefine-docs.ohevan.com/getting-started#migrate-configuration)"
-          required: true
 
   - type: textarea
     id: bug-description
     attributes:
       label: "What's the issue?"
-      description: "Tell us what's happening. Please include your relevant config settings from `_config.yml` and `_config.redefine.yml` (remember to remove any sensitive info)."
+      description: "Tell us what's happening and include any relevant configuration (remove sensitive information)."
     validations:
       required: true
 
   - type: textarea
     id: reproduce-steps
     attributes:
-      label: "How can we reproduce this?"
-      placeholder: "Walk us through the steps to see this bug in action"
-    validations:
-      required: true
+      label: "How can we reproduce this? (if possible)"
+      placeholder: "Walk us through the steps, or explain when and where the issue occurs."
 
   - type: textarea
     id: expected-behavior
     attributes:
       label: "What should have happened?"
-      placeholder: "Tell us what you expected to see"
+      placeholder: "Tell us what you expected to see, if it differs from the current behavior."
 
   - type: textarea
     id: screenshots
@@ -89,11 +84,9 @@ body:
 
   - type: dropdown
     id: priority
-    validations:
-      required: true
     attributes:
       label: "Priority"
-      description: "Please select the priority based on the severity of the issue."
+      description: "Optional: select the priority you think best fits the issue."
       options:
         - Low
         - Medium

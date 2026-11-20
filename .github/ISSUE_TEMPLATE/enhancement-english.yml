@@ -39,13 +39,11 @@ body:
     id: priority
     attributes:
       label: "Priority"
-      description: "How important do you think this feature is?"
+      description: "Optional: how important do you think this feature is?"
       options:
         - Low (Nice to have)
         - Medium (Important)
         - High (Critical)
-    validations:
-      required: true
 
   - type: textarea
     id: additional-info
