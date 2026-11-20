@@ -2,6 +2,7 @@
   .footer {
     isolation: isolate;
     color: var(--rd-gray-1000);
+    background: var(--rd-background-200);
   }
 
   .footer::before {
