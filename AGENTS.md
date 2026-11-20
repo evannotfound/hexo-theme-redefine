@@ -23,8 +23,9 @@ package-specific command says otherwise.
 
 - For isolated work, use a detached worktree instead of creating a task branch.
   After finishing and verifying the edits, merge the worktree commit directly
-  into the main development branch (`dev`), return to the repository worktree,
-  and remove the temporary worktree.
+  into the main development branch (`dev`), switch back to the main repository
+  worktree, and remove the temporary worktree. The agent is responsible for
+  cleaning up the worktree after the feature has been merged.
 
 ## Documentation is part of the change
 
@@ -99,8 +100,27 @@ commit `source/css/build/` or `source/js/build/`; CI rejects them.
 
 ## Release and contribution
 
-- Pull requests target `dev`. Commit messages use `[section]: [brief info]`,
-  for example `footer: optimize style`.
+- Pull requests target `dev`.
+- Use Conventional Commits. Before writing a commit message, silently review
+  the complete staged diff and identify its dominant purpose, affected logical
+  component, behavior before and after, and significant supporting work.
+  Distinguish the purpose from the implementation mechanism.
+- Use `type: summary` or `type(scope): summary`, with an optional `!` for
+  breaking changes. Choose one of `revert`, `fix`, `feat`, `perf`, `refactor`,
+  `docs`, `style`, `test`, `chore`, or `ci` based on the dominant net effect.
+  Use `feat` only for new or meaningfully expanded user-visible behavior;
+  use `refactor` when existing behavior is substantially preserved while its
+  implementation or organization changes.
+- Keep the header at 74 characters or fewer, use imperative present tense,
+  lowercase except for proper nouns, acronyms, product names, and issue
+  references, and omit a final period and emojis. Use a kebab-case scope only
+  when it is an established name for the affected component; otherwise omit
+  the scope.
+- Output plain text only: one header, optional bullets, and optional footers.
+  Bullets must begin with `- `, describe meaningful outcomes rather than
+  implementation inventories, and omit routine tests or documentation.
+  Add `BREAKING CHANGE: ` or issue-closing footers only when supported by the
+  diff or supplied metadata. Wrap every output line at 74 characters or fewer.
 - Preview release notes with
   `RELEASE_LLM_URL=... RELEASE_LLM_KEY=... pnpm release:notes -- v2.10.0`, then
   run `pnpm release:notes:check`. This does not publish a release.
