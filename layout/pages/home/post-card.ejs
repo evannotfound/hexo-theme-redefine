@@ -78,19 +78,20 @@
             <% } %>
         </div>
     </div>
-    <div class="flex py-3 px-5 justify-between items-center">
-        <div class="w-full gap-x-2.5 gap-y-1 flex items-center">
-            <% if (post.categories.length && theme.home.categories.enable === true) { %>
+    <% const showCategories = post.categories.length && theme.home.categories.enable === true; %>
+    <div class="flex py-3 px-5 justify-between items-center max-sm:gap-3">
+        <div class="w-full min-w-0 gap-x-2.5 gap-y-1 flex items-center">
+            <% if (showCategories) { %>
                 <%
                     const categoryPaths = getCategoryPaths(post.categories);
                     const categoryLimit = Number(theme.home.categories.limit);
                     const visibleCategoryPaths = categoryLimit > 0 ? categoryPaths.slice(0, categoryLimit) : categoryPaths;
                 %>
-                <div class="hidden min-w-0 items-center gap-1.5 sm:flex">
+                <div class="flex min-w-0 items-center gap-1.5">
                     <i class="fa-regular fa-folder-closed shrink-0 text-sm text-rd-gray-900" aria-hidden="true"></i>
                     <ul class="flex min-w-0 flex-wrap gap-1.5" aria-label="<%= __('categories') %>">
                         <% visibleCategoryPaths.forEach((categoryPath) => { %>
-                            <li data-home-category-path class="flex max-w-full items-center rounded-md border border-rd-gray-alpha-300 bg-rd-gray-100/30 px-2 py-0.5 text-xs">
+                            <li data-home-category-path class="flex max-w-full items-center rounded-md border border-rd-gray-alpha-300 bg-rd-gray-100/30 px-2 py-0.5 text-xs max-sm:not-first:hidden">
                                 <% categoryPath.forEach((category, index) => { %>
                                     <% if (index > 0) { %><i class="fa-regular fa-angle-right mx-1 shrink-0 text-xs text-rd-gray-800" aria-hidden="true"></i><% } %>
                                     <a class="min-w-0 truncate text-rd-gray-900 hover:text-primary" href="<%- url_for(category.path) %>"><%= category.name %></a>
@@ -101,12 +102,12 @@
                 </div>
             <% } %>
             <% if (post.tags.length && theme.home.tags.enable === true) { %>
-                <span class="hidden items-center gap-1.5 md:flex">
-                    <i class="fa-regular fa-hashtag text-sm text-rd-gray-900" aria-hidden="true"></i>
-                    <ul class="flex flex-wrap gap-0.5">
+                <span class="<%= showCategories ? 'hidden' : 'flex sm:hidden' %> min-w-0 items-center gap-1.5 md:flex">
+                    <i class="fa-regular fa-hashtag shrink-0 text-sm text-rd-gray-900" aria-hidden="true"></i>
+                    <ul class="flex min-w-0 flex-wrap gap-0.5">
                         <% post.tags.forEach((tag, i) => { %>
                             <% if (theme.home.tags.limit === 0 || i + 1 <= theme.home.tags.limit) { %>
-                                <li class="flex"><a class="rounded-full border border-rd-gray-alpha-300 bg-rd-gray-100/30 px-2 py-0.5 text-xs text-rd-gray-900 hover:text-primary" href="<%- url_for(tag.path) %>"><%= tag.name %></a></li>
+                                <li class="flex max-sm:max-w-full max-sm:not-first:hidden"><a class="max-sm:truncate rounded-full border border-rd-gray-alpha-300 bg-rd-gray-100/30 px-2 py-0.5 text-xs text-rd-gray-900 hover:text-primary" href="<%- url_for(tag.path) %>"><%= tag.name %></a></li>
                             <% } %>
                         <% }); %>
                     </ul>
