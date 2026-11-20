@@ -34,13 +34,7 @@ const destroyInstance = (id) => {
   const instance = instances.get(id);
   if (instance && typeof instance.destroy === "function") {
     try {
-      if (instance.timeout) {
-        clearTimeout(instance.timeout);
-      }
       instance.destroy();
-      if (instance.timeout) {
-        clearTimeout(instance.timeout);
-      }
     } catch (error) {
       console.error("Failed to destroy Typed instance:", error);
     }
@@ -66,8 +60,6 @@ const createTyped = (id, strings, options, callbacks = {}) => {
   if (typeof window.Typed === "undefined") {
     return;
   }
-
-  destroyInstance(id);
 
   if (!document.getElementById(id)) {
     return;
@@ -103,8 +95,8 @@ const getHitokotoText = (data) => {
   return author ? `${quote}——${author}` : quote;
 };
 
-const fetchHitokoto = (api) =>
-  fetch(api)
+const fetchHitokoto = (api, signal) =>
+  fetch(api, signal ? { signal } : undefined)
     .then((response) => {
       if (!response.ok) {
         throw new Error(
@@ -133,10 +125,14 @@ export const config = {
   usrHitokotoAPI: hitokotoConfig.api,
 };
 
-export default function initTyped(id) {
+export default function initTyped(id, { signal } = {}) {
   const currentToken = (initTokens.get(id) || 0) + 1;
   initTokens.set(id, currentToken);
   destroyInstance(id);
+  if (signal?.aborted) {
+    return;
+  }
+  signal?.addEventListener("abort", () => destroyTyped(id), { once: true });
 
   const {
     usrTypeSpeed,
@@ -164,7 +160,7 @@ export default function initTyped(id) {
       return;
     }
 
-    fetchHitokoto(usrHitokotoAPI)
+    fetchHitokoto(usrHitokotoAPI, signal)
       .then((text) => {
         if (initTokens.get(id) !== currentToken) {
           return;
@@ -188,14 +184,16 @@ export default function initTyped(id) {
             return;
           }
 
-          refreshRequest = fetchHitokoto(usrHitokotoAPI)
+          refreshRequest = fetchHitokoto(usrHitokotoAPI, signal)
             .then((nextQuote) => {
               if (initTokens.get(id) === currentToken) {
                 nextText = nextQuote;
               }
             })
             .catch((error) => {
-              console.error("Failed to refresh hitokoto:", error);
+              if (!signal?.aborted) {
+                console.error("Failed to refresh hitokoto:", error);
+              }
             })
             .finally(() => {
               refreshRequest = null;
@@ -215,7 +213,9 @@ export default function initTyped(id) {
         });
       })
       .catch((error) => {
-        console.error("Failed to fetch hitokoto:", error);
+        if (!signal?.aborted) {
+          console.error("Failed to fetch hitokoto:", error);
+        }
       });
 
     return;
