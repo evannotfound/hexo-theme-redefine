@@ -7,36 +7,37 @@
     max-width: var(--navbar-width-pages);
   }
 
-  .navbar-link::after {
+  [data-navbar-links]::after {
     position: absolute;
     bottom: -5px;
-    left: 50%;
-    width: 100%;
+    left: 0;
+    width: var(--navbar-indicator-width, 0px);
     height: 2px;
     content: "";
     background: var(--primary-color);
     border-radius: 9999px;
-    opacity: 0;
-    transform: translate3d(-50%, -5px, 0);
-    transition: transform 0.2s ease, bottom 0.2s ease, opacity 0.2s ease;
+    pointer-events: none;
+    opacity: var(--navbar-indicator-opacity, 0);
+    transform: translateX(var(--navbar-indicator-x, 0px));
   }
 
-  .navbar-link:hover::after,
-  .navbar-link[aria-current="page"]::after {
-    opacity: 1;
-    transform: translate3d(-50%, 0, 0);
-  }
-
-  .navbar-dropdown:hover .navbar-link::after {
-    display: none;
+  [data-navbar-links][data-indicator-ready]::after {
+    transition: transform 0.2s ease, width 0.2s ease,
+      bottom 0.2s ease, opacity 0.2s ease;
   }
 
   .navbar-dropdown:hover .navbar-chevron {
     transform: rotate(180deg);
   }
 
-  body[data-navbar-size="compact"] .navbar-link::after {
+  body[data-navbar-size="compact"] [data-navbar-links]::after {
     bottom: -8.2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-navbar-links][data-indicator-ready]::after {
+      transition: none;
+    }
   }
 
   .navbar-toggle-line,

@@ -22,7 +22,7 @@
         </div>
 
         <div class="flex items-center">
-            <ul class="hidden items-center gap-6 md:flex">
+            <ul data-navbar-links class="relative hidden items-center gap-6 md:flex">
                 <% for (let i in theme.navbar.links) { %>
                     <% if (theme.navbar.links[i].path !== 'none') { %>
                         <%
