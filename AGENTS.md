@@ -19,6 +19,13 @@ package-specific command says otherwise.
 - Use pnpm `11.20.0` and Node.js 24.x. Change dependencies in the owning
   `package.json`; let pnpm update the root `pnpm-lock.yaml`.
 
+## Worktree workflow
+
+- For isolated work, use a detached worktree instead of creating a task branch.
+  After finishing and verifying the edits, merge the worktree commit directly
+  into the main development branch (`dev`), return to the repository worktree,
+  and remove the temporary worktree.
+
 ## Documentation is part of the change
 
 - When adding a configuration option, adding a user-visible feature, or
