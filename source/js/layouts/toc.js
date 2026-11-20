@@ -1,32 +1,9 @@
 import { initTocToggle } from "../tools/tocToggle.js";
 import { getStyleStatus } from "../state/styleStatus.js";
 
-let tocState = null;
-let didInitScroll = false;
-
-const registerScrollHandler = (signal) => {
-  if (didInitScroll || !signal) {
-    return;
-  }
-
-  didInitScroll = true;
-  window.addEventListener(
-    "scroll",
-    () => {
-      tocState?.updateActiveTOCLink();
-    },
-    { signal },
-  );
-};
-
 export function initTOC({ signal } = {}) {
-  if (signal) {
-    registerScrollHandler(signal);
-  }
-
   const tocContainer = document.getElementById("article-toc");
   if (!tocContainer) {
-    tocState = null;
     return null;
   }
 
@@ -39,11 +16,43 @@ export function initTOC({ signal } = {}) {
     document.querySelectorAll(".toc-marker").forEach((elem) => {
       elem.remove();
     });
-    tocState = null;
     return null;
   }
 
   const navLinks = tocContainer.querySelectorAll("a.nav-link");
+  const content = tocContainer.firstElementChild;
+  const indicator = document.createElement("span");
+  indicator.className = "toc-indicator";
+  indicator.setAttribute("aria-hidden", "true");
+  content.append(indicator);
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const updateEdges = () => {
+    const remaining =
+      tocContainer.scrollHeight - tocContainer.clientHeight - tocContainer.scrollTop;
+    tocContainer.style.setProperty(
+      "--toc-fade-top",
+      `${Math.min(16, Math.max(0, tocContainer.scrollTop))}px`,
+    );
+    tocContainer.style.setProperty(
+      "--toc-fade-bottom",
+      `${Math.min(16, Math.max(0, remaining))}px`,
+    );
+  };
+
+  const updateIndicator = () => {
+    const target = tocContainer.querySelector('[aria-current="location"]');
+    if (!target || !tocContainer.clientHeight) return;
+    const rect = target.getBoundingClientRect();
+    const origin = content.getBoundingClientRect();
+    indicator.style.transform =
+      `translate(${rect.left - origin.left - 12}px, ${rect.top - origin.top}px)`;
+    indicator.style.height = `${rect.height}px`;
+    if (!indicator.dataset.ready) {
+      getComputedStyle(indicator).transform;
+      indicator.dataset.ready = "true";
+    }
+  };
 
   const utils = {
     navItems,
@@ -87,6 +96,8 @@ export function initTOC({ signal } = {}) {
         activeItem.dataset.active = "true";
         activeItem = activeItem.parentElement?.closest(".nav-item");
       }
+      updateIndicator();
+      updateEdges();
 
       const tocTop = tocContainer.getBoundingClientRect().top;
       const scrollTopOffset =
@@ -107,7 +118,7 @@ export function initTOC({ signal } = {}) {
 
       tocContainer.scrollTo({
         top: scrollTop,
-        behavior: "smooth",
+        behavior: reducedMotion.matches ? "instant" : "smooth",
       });
     },
 
@@ -138,6 +149,20 @@ export function initTOC({ signal } = {}) {
   utils.registerTOCScroll();
   utils.updateActiveTOCLink();
 
-  tocState = utils;
+  const observer = new ResizeObserver(() => {
+    updateIndicator();
+    updateEdges();
+  });
+  observer.observe(tocContainer);
+  observer.observe(content);
+  tocContainer.addEventListener("scroll", updateEdges, { passive: true, signal });
+  window.addEventListener("scroll", () => utils.updateActiveTOCLink(), {
+    passive: true,
+    signal,
+  });
+  signal?.addEventListener("abort", () => {
+    observer.disconnect();
+    indicator.remove();
+  }, { once: true });
   return utils;
 }

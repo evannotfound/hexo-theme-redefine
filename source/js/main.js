@@ -183,7 +183,7 @@ const initPage = () => {
 
   safeRun("toc", () => {
     if (theme.articles?.toc?.enable) {
-      initTOC({ signal: appSignal });
+      initTOC({ signal: pageSignal });
     }
   });
 

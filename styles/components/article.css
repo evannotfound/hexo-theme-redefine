@@ -14,6 +14,13 @@
     font-size: 0.92rem;
     opacity: 0;
     transition: width 0.3s ease-out, opacity 0.3s ease-out 0.3s;
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 var(--toc-fade-top, 0px),
+      #000 calc(100% - var(--toc-fade-bottom, 0px)),
+      transparent
+    );
   }
 
   .toc:hover::-webkit-scrollbar-thumb {
@@ -53,10 +60,6 @@
     padding-left: 0;
   }
 
-  .toc ol ol {
-    border-left: 2px dotted var(--rd-gray-alpha-400);
-  }
-
   .toc .nav-link {
     transition: all 0.2s ease;
   }
@@ -85,27 +88,30 @@
     transition: all 0.3s ease;
   }
 
-  .toc .nav-item[data-active="true"] > .nav-link :is(.nav-number, .nav-text),
   .toc .nav-link[aria-current="location"] :is(.nav-number, .nav-text) {
-    font-weight: bold;
     color: var(--primary-color);
   }
 
-  .toc .nav-link > span:first-child::before {
+  .toc-indicator {
     position: absolute;
-    width: 10px;
-    height: 1.7rem;
-    margin: auto 4px auto 0;
-    color: var(--primary-color);
-    content: " ";
-    border-left: 2px solid var(--primary-color);
+    top: 0;
+    left: 0;
+    width: 2px;
+    border-radius: 9999px;
+    background: var(--primary-color);
+    pointer-events: none;
     opacity: 0;
-    transform: translate(-12px, 0);
-    transition: all 0.1s linear;
   }
 
-  .toc .nav-link[aria-current="location"] > span:first-child::before {
+  .toc-indicator[data-ready="true"] {
     opacity: 1;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), height 0.2s ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toc-indicator[data-ready="true"] {
+      transition: none;
+    }
   }
 
   @variant lg {

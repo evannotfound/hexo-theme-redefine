@@ -5,7 +5,7 @@
         : 40;
     const showTitle = page.title && [...String(page.title)].length <= titleMaxLength;
 %>
-<div class="box-border w-full">
+<div class="relative box-border w-full">
     <div class="mb-1 text-xs font-medium text-rd-gray-1000"><%- __('toc') %></div>
     <% if (showTitle) { %>
         <div class="mb-2.5 text-lg leading-normal font-bold whitespace-normal text-rd-gray-1000"><%= page.title %></div>
